@@ -3,9 +3,45 @@
 {% block title %}New Reservation{% endblock %}
 
 {% block body %}
-    <h1>Create new Reservation</h1>
+   {{ form_start(form) }}
 
-    {{ include('reservation/_form.html.twig') }}
+   <div class="card shadow-sm p-4">
 
-    <a href="{{ path('app_reservation_index') }}">back to list</a>
+       <h4 class="mb-4">Reservation Details</h4>
+
+       {# CAR SELECT #}
+       <div class="mb-3">
+           {{ form_label(form.car, 'Choose a Car') }}
+           {{ form_widget(form.car, {'attr': {'class': 'form-select'}}) }}
+           {{ form_errors(form.car) }}
+       </div>
+
+       {# START DATE #}
+       <div class="mb-3">
+           {{ form_label(form.startDate, 'Start Date') }}
+           {{ form_widget(form.startDate, {'attr': {'class': 'form-control'}}) }}
+           {{ form_errors(form.startDate) }}
+       </div>
+
+       {# END DATE #}
+       <div class="mb-3">
+           {{ form_label(form.endDate, 'End Date') }}
+           {{ form_widget(form.endDate, {'attr': {'class': 'form-control'}}) }}
+           {{ form_errors(form.endDate) }}
+       </div>
+
+       {# OPTIONAL INFO (nice UX improvement) #}
+       <div class="alert alert-info mt-3">
+           <strong>Note:</strong>
+           Make sure the car is available for the selected dates.
+       </div>
+
+       {# SUBMIT BUTTON #}
+       <button class="btn btn-success w-100 mt-2">
+           🚗 {{ button_label|default('Confirm Reservation') }}
+       </button>
+
+   </div>
+
+   {{ form_end(form) }}
 {% endblock %}

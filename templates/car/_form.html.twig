@@ -1,4 +1,63 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+<div class="mb-3">
+    {{ form_label(form.brand) }}
+    {{ form_widget(form.brand, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.brand) }}
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.model) }}
+    {{ form_widget(form.model, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.model) }}
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.pricePerDay) }}
+    {{ form_widget(form.pricePerDay, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.pricePerDay) }}
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.image) }}
+    {{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.image) }}
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.registrationNumber) }}
+    {{ form_widget(form.registrationNumber, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.registrationNumber) }}
+</div>
+
+<div class="mb-4">
+    <label class="form-label">Status</label>
+
+    <div class="d-flex gap-3">
+        <div class="form-check">
+            {{ form_widget(form.status.children[0], {
+                'attr': {'class': 'form-check-input'}
+            }) }}
+            <label class="form-check-label text-success">
+                🟢 Available
+            </label>
+        </div>
+
+        <div class="form-check">
+            {{ form_widget(form.status.children[1], {
+                'attr': {'class': 'form-check-input'}
+            }) }}
+            <label class="form-check-label text-danger">
+                🔴 Unavailable
+            </label>
+        </div>
+    </div>
+
+    {{ form_errors(form.status) }}
+</div>
+
+<button class="btn btn-success">
+    {{ button_label|default('Save') }}
+</button>
+
 {{ form_end(form) }}

@@ -54,6 +54,7 @@ final class CarController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_car_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Car $car, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CarType::class, $car);
@@ -72,6 +73,7 @@ final class CarController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_car_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Car $car, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$car->getId(), $request->getPayload()->getString('_token'))) {
@@ -79,6 +81,6 @@ final class CarController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_car_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirect($request->headers->get('referer'));
     }
 }

@@ -1,42 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Car{% endblock %}
+{% block title %}Car Details{% endblock %}
 
 {% block body %}
-    <h1>Car</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ car.id }}</td>
-            </tr>
-            <tr>
-                <th>Brand</th>
-                <td>{{ car.brand }}</td>
-            </tr>
-            <tr>
-                <th>Model</th>
-                <td>{{ car.model }}</td>
-            </tr>
-            <tr>
-                <th>PricePerDay</th>
-                <td>{{ car.pricePerDay }}</td>
-            </tr>
-            <tr>
-                <th>Image</th>
-                <td>{{ car.image }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ car.status }}</td>
-            </tr>
-        </tbody>
-    </table>
+<div class="container mt-5">
 
-    <a href="{{ path('app_car_index') }}">back to list</a>
+    <div class="card shadow p-4">
 
-    <a href="{{ path('app_car_edit', {'id': car.id}) }}">edit</a>
+        <h2 class="mb-3">{{ car.model }}</h2>
 
-    {{ include('car/_delete_form.html.twig') }}
+        <hr>
+
+        <p><strong>Model:</strong> {{ car.model }}</p>
+
+        <p><strong>Price per day:</strong> {{ car.pricePerDay }} €</p>
+
+        <p><strong>Car ID:</strong> {{ car.id }}</p>
+
+        <p><strong>Description:</strong> This is a great rental car.</p>
+
+        <div class="mt-4">
+            <a href="{{ path('app_car_index') }}" class="btn btn-secondary">
+                Back to list
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
 {% endblock %}

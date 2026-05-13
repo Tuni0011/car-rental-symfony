@@ -1,0 +1,106 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Cars Management{% endblock %}
+
+{% block body %}
+
+<h1 class="mb-4">Cars Management</h1>
+
+<a href="{{ path('app_car_new') }}" class="btn btn-success mb-3">
+    + Add New Car
+</a>
+
+{# FILTER SYSTEM #}
+{% set currentStatus = status|default(null) %}
+
+<div class="mb-3 d-flex gap-2">
+
+    <a href="{{ path('admin_cars') }}"
+       class="btn btn-sm {{ currentStatus is null ? 'btn-dark' : 'btn-outline-dark' }}">
+        All
+    </a>
+
+    <a href="{{ path('admin_cars', {'status': 'available'}) }}"
+       class="btn btn-sm {{ currentStatus == 'available' ? 'btn-success' : 'btn-outline-success' }}">
+        Available
+    </a>
+
+    <a href="{{ path('admin_cars', {'status': 'unavailable'}) }}"
+       class="btn btn-sm {{ currentStatus == 'unavailable' ? 'btn-danger' : 'btn-outline-danger' }}">
+        Unavailable
+    </a>
+
+</div>
+
+<table class="table table-striped align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>Registration #</th>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>Price / Day</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for car in cars %}
+            <tr>
+
+                <td>
+                    <span class="fw-bold text-primary">
+                        {{ car.registrationNumber }}
+                    </span>
+                </td>
+
+                <td>{{ car.brand }}</td>
+                <td>{{ car.model }}</td>
+                <td>{{ car.pricePerDay }} €</td>
+
+                <td>
+                    {% if car.status == 'available' %}
+                        <span class="badge bg-success">Available</span>
+                    {% else %}
+                        <span class="badge bg-danger">Unavailable</span>
+                    {% endif %}
+                </td>
+
+                <td>
+                    <a href="{{ path('app_car_show', {'id': car.id}) }}"
+                       class="btn btn-info btn-sm">
+                        View
+                    </a>
+
+                    <a href="{{ path('app_car_edit', {'id': car.id}) }}"
+                       class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
+
+                    <form method="post"
+                          action="{{ path('app_car_delete', {'id': car.id}) }}"
+                          style="display:inline-block"
+                          onsubmit="return confirm('Delete this car?')">
+
+                        <input type="hidden" name="_token"
+                               value="{{ csrf_token('delete' ~ car.id) }}">
+
+                        <button class="btn btn-danger btn-sm">
+                            Delete
+                        </button>
+
+                    </form>
+                </td>
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6" class="text-center text-muted">
+                    No cars found
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

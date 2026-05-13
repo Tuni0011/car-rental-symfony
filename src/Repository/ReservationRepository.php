@@ -28,6 +28,19 @@ class ReservationRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function hasOverlap($car, $startDate, $endDate): bool
+    {
+        $qb = $this->createQueryBuilder('r');
+
+        $qb->where('r.car = :car')
+            ->andWhere('r.startDate <= :endDate')
+            ->andWhere('r.endDate >= :startDate')
+            ->setParameter('car', $car)
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate);
+
+        return count($qb->getQuery()->getResult()) > 0;
+    }
 //    /**
 //     * @return Reservation[] Returns an array of Reservation objects
 //     */

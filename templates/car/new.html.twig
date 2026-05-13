@@ -1,11 +1,27 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/layout.html.twig' %}
 
 {% block title %}New Car{% endblock %}
 
 {% block body %}
-    <h1>Create new Car</h1>
 
-    {{ include('car/_form.html.twig') }}
+<div class="container mt-4">
 
-    <a href="{{ path('app_car_index') }}">back to list</a>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Create New Car</h1>
+
+        <a href="{{ path('admin_cars') }}" class="btn btn-secondary">
+            Back to list
+        </a>
+    </div>
+
+    <div class="card shadow border-0">
+        <div class="card-body">
+
+            {{ include('car/_form.html.twig') }}
+
+        </div>
+    </div>
+
+</div>
+
 {% endblock %}

@@ -28,6 +28,9 @@ class Car
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
+    #[ORM\Column(length: 255, unique: true)]
+    private ?string $registrationNumber = null;
+
 
     #[ORM\Column(length: 255)]
     private ?string $status = null;
@@ -134,6 +137,17 @@ class Car
                 $reservation->setCar(null);
             }
         }
+
+        return $this;
+    }
+    public function getRegistrationNumber(): ?string
+    {
+        return $this->registrationNumber;
+    }
+
+    public function setRegistrationNumber(string $registrationNumber): static
+    {
+        $this->registrationNumber = $registrationNumber;
 
         return $this;
     }

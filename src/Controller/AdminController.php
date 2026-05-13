@@ -6,6 +6,7 @@ use App\Repository\CarRepository;
 use App\Repository\ReservationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -34,6 +35,26 @@ class AdminController extends AbstractController
             'reservationsCount' => $reservationsCount,
             'reservations' => $reservations,
             'totalRevenue' => $totalRevenue,
+        ]);
+    }
+
+    // =========================
+    // CARS MANAGEMENT PAGE
+    // =========================
+    #[Route('/cars', name: 'admin_cars')]
+    public function cars(CarRepository $carRepository, Request $request): Response
+    {
+        $status = $request->query->get('status');
+
+        if ($status) {
+            $cars = $carRepository->findBy(['status' => $status]);
+        } else {
+            $cars = $carRepository->findAll();
+        }
+
+        return $this->render('admin/cars.html.twig', [
+            'cars' => $cars,
+            'currentStatus' => $status,
         ]);
     }
 }

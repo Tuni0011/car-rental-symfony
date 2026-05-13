@@ -59,7 +59,7 @@
        Dashboard
    </a>
 
-   <a href="{{ path('app_car_index') }}">
+   <a href="{{ path('admin_cars') }}">
        <i class="fa-solid fa-car"></i>
        Cars
    </a>
@@ -79,49 +79,9 @@
 
     {% block body %}{% endblock %}
 
-    <div class="card shadow border-0 mt-4">
-        <div class="card-body">
-
-            <h4 class="mb-4">Revenue Analytics</h4>
-
-            <canvas id="revenueChart"></canvas>
-
-        </div>
-    </div>
-</div>
 
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
 
-const ctx = document.getElementById('revenueChart');
-
-new Chart(ctx, {
-    type: 'bar',
-
-    data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-
-        datasets: [{
-            label: 'Revenue (€)',
-
-            data: [1200, 1900, 800, 2100, 1700, 2500],
-
-            borderWidth: 1
-        }]
-    },
-
-    options: {
-        responsive: true,
-
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
-
-</script>
 </html>
