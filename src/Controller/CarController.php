@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/car')]
-#[IsGranted('ROLE_ADMIN')]
+
 final class CarController extends AbstractController
 {
     #[Route(name: 'app_car_index', methods: ['GET'])]
@@ -25,6 +25,7 @@ final class CarController extends AbstractController
     }
 
     #[Route('/new', name: 'app_car_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $car = new Car();
