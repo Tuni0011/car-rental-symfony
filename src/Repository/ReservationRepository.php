@@ -15,7 +15,19 @@ class ReservationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Reservation::class);
     }
-
+    public function findOverlappingReservations($car, $startDate, $endDate): array
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.car = :car')
+            ->andWhere('
+            (r.startDate <= :endDate AND r.endDate >= :startDate)
+        ')
+            ->setParameter('car', $car)
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate)
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return Reservation[] Returns an array of Reservation objects
 //     */

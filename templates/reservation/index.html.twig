@@ -1,39 +1,69 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Reservation index{% endblock %}
+{% block title %}Reservations{% endblock %}
 
 {% block body %}
-    <h1>Reservation index</h1>
+<h1>Reservations List</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>StartDate</th>
-                <th>EndDate</th>
-                <th>TotalPrice</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for reservation in reservations %}
-            <tr>
-                <td>{{ reservation.id }}</td>
-                <td>{{ reservation.startDate ? reservation.startDate|date('Y-m-d') : '' }}</td>
-                <td>{{ reservation.endDate ? reservation.endDate|date('Y-m-d') : '' }}</td>
-                <td>{{ reservation.totalPrice }}</td>
-                <td>
-                    <a href="{{ path('app_reservation_show', {'id': reservation.id}) }}">show</a>
-                    <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Car</th>
+            <th>User</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Total Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
 
-    <a href="{{ path('app_reservation_new') }}">Create new</a>
+    <tbody>
+    {% for reservation in reservations %}
+        <tr>
+            <td>{{ reservation.id }}</td>
+
+            <td>
+                {{ reservation.car ? reservation.car.model : 'N/A' }}
+            </td>
+
+            <td>
+                {{ reservation.user ? reservation.user.email : 'N/A' }}
+            </td>
+
+            <td>
+                {{ reservation.startDate ? reservation.startDate|date('Y-m-d') : '' }}
+            </td>
+
+            <td>
+                {{ reservation.endDate ? reservation.endDate|date('Y-m-d') : '' }}
+            </td>
+
+            <td>
+                {{ reservation.totalPrice }} €
+            </td>
+
+            <td>
+                <a class="btn btn-sm btn-primary"
+                   href="{{ path('app_reservation_show', {'id': reservation.id}) }}">
+                    Show
+                </a>
+
+                <a class="btn btn-sm btn-warning"
+                   href="{{ path('app_reservation_edit', {'id': reservation.id}) }}">
+                    Edit
+                </a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="7">No reservations found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<a class="btn btn-success" href="{{ path('app_reservation_new') }}">
+    Create New Reservation
+</a>
 {% endblock %}
