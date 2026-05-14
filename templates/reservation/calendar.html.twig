@@ -1,0 +1,89 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Reservation Calendar{% endblock %}
+
+{% block body %}
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h1 class="fw-bold mb-1">
+                Reservation Calendar
+            </h1>
+
+            <p class="text-muted mb-0">
+                View all reservations visually
+            </p>
+
+        </div>
+
+        <a href="{{ path('app_reservation_index') }}"
+           class="btn btn-outline-secondary">
+
+            ← Back to Reservations
+
+        </a>
+
+    </div>
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body p-4">
+
+            <div id="calendar"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{# FULLCALENDAR CSS #}
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css"
+      rel="stylesheet">
+
+{# FULLCALENDAR JS #}
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    let calendarEl = document.getElementById('calendar');
+
+    let calendar = new FullCalendar.Calendar(calendarEl, {
+
+        initialView: 'dayGridMonth',
+
+        height: 750,
+
+        events: {{ events|raw }},
+
+        headerToolbar: {
+
+            left: 'prev,next today',
+
+            center: 'title',
+
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+
+        },
+
+        eventTimeFormat: {
+            hour: '2-digit',
+            minute: '2-digit',
+            meridiem: false
+        }
+
+    });
+
+    calendar.render();
+
+});
+
+</script>
+
+{% endblock %}

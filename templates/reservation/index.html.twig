@@ -1,83 +1,292 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/layout.html.twig' %}
 
 {% block title %}Reservations{% endblock %}
 
 {% block body %}
-<h1>Reservations List</h1>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Car</th>
-            <th>User</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Total Price</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
+<style>
 
-    <tbody>
-    {% for reservation in reservations %}
-        <tr>
-            <td>{{ reservation.id }}</td>
+.custom-table th,
+.custom-table td {
+    padding: 20px 25px !important;
+    vertical-align: middle;
+}
 
-            <td>
-                {{ reservation.car ? reservation.car.model : 'N/A' }}
-            </td>
+.custom-table thead th {
+    white-space: nowrap;
+}
 
-            <td>
-                {{ reservation.user ? reservation.user.email : 'N/A' }}
-            </td>
+.custom-table tbody tr:hover {
+    background-color: #f8f9fa;
+    transition: 0.2s;
+}
 
-            <td>
-                {{ reservation.startDate ? reservation.startDate|date('Y-m-d') : '' }}
-            </td>
+</style>
 
-            <td>
-                {{ reservation.endDate ? reservation.endDate|date('Y-m-d') : '' }}
-            </td>
+<div class="container py-5">
 
-            <td>
-                {{ reservation.totalPrice }} €
-            </td>
+    {# HEADER #}
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-            <td>
-                {% if reservation.status == 'pending' %}
-                    <span class="badge bg-warning text-dark">Pending</span>
-                {% elseif reservation.status == 'confirmed' %}
-                    <span class="badge bg-success">Confirmed</span>
-                {% elseif reservation.status == 'cancelled' %}
-                    <span class="badge bg-danger">Cancelled</span>
-                {% else %}
-                    <span class="badge bg-secondary">N/A</span>
-                {% endif %}
-            </td>
+        <div>
+            <h1 class="fw-bold mb-1">Reservations</h1>
 
-            <td>
-                <a class="btn btn-sm btn-primary"
-                   href="{{ path('app_reservation_show', {'id': reservation.id}) }}">
-                    Show
-                </a>
+            <p class="text-muted mb-0">
+                Manage all customer reservations
+            </p>
+        </div>
 
-                <a class="btn btn-sm btn-warning"
-                   href="{{ path('app_reservation_edit', {'id': reservation.id}) }}">
-                    Edit
-                </a>
-            </td>
-        </tr>
-    {% else %}
-        <tr>
-            <td colspan="8">No reservations found</td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+        <a class="btn btn-success shadow-sm px-4"
+           href="{{ path('app_reservation_new') }}">
+            + New Reservation
+        </a>
 
-<a class="btn btn-success" href="{{ path('app_reservation_new') }}">
-    Create New Reservation
-</a>
+    </div>
+
+    {# TABLE CARD #}
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body p-4">
+
+            <div class="table-responsive p-2">
+
+                <table class="table table-hover align-middle mb-0 custom-table">
+
+                    <thead class="table-dark">
+
+                        <tr>
+                            <th>#</th>
+                            <th>Customer</th>
+                            <th>Phone</th>
+                            <th>Car</th>
+                            <th>User</th>
+                            <th>Reservation Dates</th>
+                            <th>License Check</th>
+                            <th>License</th>
+                            <th>CIN</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for reservation in reservations %}
+
+                        <tr>
+
+                            {# ID #}
+                            <td class="fw-bold text-primary">
+                                #{{ reservation.id }}
+                            </td>
+
+                            {# CUSTOMER #}
+                            <td>
+                                <div class="fw-semibold">
+                                    {{ reservation.fullName }}
+                                </div>
+                            </td>
+
+                            {# PHONE #}
+                            <td>
+                                {{ reservation.phoneNumber }}
+                            </td>
+
+                            {# CAR #}
+                            <td>
+
+                                <div class="fw-semibold">
+                                    {{ reservation.car ? reservation.car.brand : 'N/A' }}
+                                </div>
+
+                                <small class="text-muted">
+                                    {{ reservation.car ? reservation.car.model : '' }}
+                                </small>
+
+                            </td>
+
+                            {# USER EMAIL #}
+                            <td>
+                                <small>
+                                    {{ reservation.user ? reservation.user.email : 'N/A' }}
+                                </small>
+                            </td>
+
+                            {# RESERVATION DATES #}
+                            <td>
+
+                                <div>
+                                    <strong>From:</strong>
+                                    {{ reservation.startDate
+                                        ? reservation.startDate|date('d M Y')
+                                        : ''
+                                    }}
+                                </div>
+
+                                <div>
+                                    <strong>To:</strong>
+                                    {{ reservation.endDate
+                                        ? reservation.endDate|date('d M Y')
+                                        : ''
+                                    }}
+                                </div>
+
+                            </td>
+
+                            {# LICENSE VALIDATION #}
+                            <td>
+
+                                {% if reservation.licenseIssueDate %}
+
+                                    {% set difference = date().diff(reservation.licenseIssueDate) %}
+
+                                    {% if difference.y >= 2 %}
+
+                                        <span class="badge rounded-pill bg-success px-3 py-2">
+                                            ✅ OK
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="badge rounded-pill bg-danger px-3 py-2">
+                                            ❌ Not OK
+                                        </span>
+
+                                    {% endif %}
+
+                                {% else %}
+
+                                    <span class="badge rounded-pill bg-secondary px-3 py-2">
+                                        N/A
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            {# LICENSE IMAGE #}
+                            <td>
+
+                                {% if reservation.licenseImage %}
+
+                                    <img
+                                        src="{{ asset('uploads/licenses/' ~ reservation.licenseImage) }}"
+                                        class="img-thumbnail rounded shadow-sm"
+                                        width="80"
+                                        alt="License">
+
+                                {% else %}
+
+                                    <span class="text-muted">
+                                        N/A
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            {# CIN IMAGE #}
+                            <td>
+
+                                {% if reservation.cinImage %}
+
+                                    <img
+                                        src="{{ asset('uploads/cin/' ~ reservation.cinImage) }}"
+                                        class="img-thumbnail rounded shadow-sm"
+                                        width="80"
+                                        alt="CIN">
+
+                                {% else %}
+
+                                    <span class="text-muted">
+                                        N/A
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            {# TOTAL PRICE #}
+                            <td class="fw-bold text-success">
+                                {{ reservation.totalPrice }} €
+                            </td>
+
+                            {# STATUS #}
+                            <td>
+
+                                {% if reservation.status == 'pending' %}
+
+                                    <span class="badge rounded-pill bg-warning text-dark px-3 py-2">
+                                        Pending
+                                    </span>
+
+                                {% elseif reservation.status == 'approved' %}
+
+                                    <span class="badge rounded-pill bg-success px-3 py-2">
+                                        Approved
+                                    </span>
+
+                                {% elseif reservation.status == 'rejected' %}
+
+                                    <span class="badge rounded-pill bg-danger px-3 py-2">
+                                        Rejected
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge rounded-pill bg-secondary px-3 py-2">
+                                        N/A
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            {# ACTIONS #}
+                            <td class="text-center">
+
+                                <div class="d-flex gap-2 justify-content-center">
+
+                                    <a class="btn btn-sm btn-outline-primary"
+                                       href="{{ path('app_reservation_show', {'id': reservation.id}) }}">
+                                        View
+                                    </a>
+
+
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    {% else %}
+
+                        <tr>
+
+                            <td colspan="12" class="text-center py-5 text-muted">
+
+                                <h5>No reservations found</h5>
+
+                            </td>
+
+                        </tr>
+
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
 {% endblock %}

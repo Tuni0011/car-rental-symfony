@@ -1,34 +1,70 @@
-
-
 <div class="container mt-4">
 
     <h1 class="mb-4">Create Reservation</h1>
 
     {{ form_start(form) }}
 
+    {# CAR #}
     <div class="mb-3">
         {{ form_label(form.car) }}
         {{ form_widget(form.car, {'attr': {'class': 'form-select'}}) }}
         {{ form_errors(form.car) }}
     </div>
+    <div class="mb-3">
+    {{ form_label(form.fullName, 'Full Name') }}
+    {{ form_widget(form.fullName, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.fullName) }}
+    </div>
 
+<div class="mb-3">
+    {{ form_label(form.phoneNumber, 'Phone Number') }}
+    {{ form_widget(form.phoneNumber, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.phoneNumber) }}
+</div>
+
+    {# START DATE #}
     <div class="mb-3">
         {{ form_label(form.startDate) }}
         {{ form_widget(form.startDate, {'attr': {'class': 'form-control'}}) }}
         {{ form_errors(form.startDate) }}
     </div>
 
+    {# END DATE #}
     <div class="mb-3">
         {{ form_label(form.endDate) }}
         {{ form_widget(form.endDate, {'attr': {'class': 'form-control'}}) }}
         {{ form_errors(form.endDate) }}
     </div>
 
-    <button class="btn btn-primary">
+    {# LICENSE ISSUE DATE #}
+    <div class="mb-3">
+        {{ form_label(form.licenseIssueDate, 'Driver License Issue Date') }}
+        {{ form_widget(form.licenseIssueDate, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.licenseIssueDate) }}
+    </div>
+
+    {# CIN IMAGE #}
+    <div class="mb-3">
+        {{ form_label(form.cinImage, 'Upload CIN Image') }}
+        {{ form_widget(form.cinImage, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.cinImage) }}
+    </div>
+
+    {# LICENSE IMAGE #}
+    <div class="mb-3">
+        {{ form_label(form.licenseImage, 'Upload Driver License') }}
+        {{ form_widget(form.licenseImage, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.licenseImage) }}
+    </div>
+
+    <div class="alert alert-info">
+        Your driver license must be at least 2 years old.
+    </div>
+
+    <button class="btn btn-primary w-100">
         {{ button_label|default('Reserve Now') }}
     </button>
 
     {{ form_end(form) }}
 
 </div>
-

@@ -3,45 +3,81 @@
 {% block title %}New Reservation{% endblock %}
 
 {% block body %}
-   {{ form_start(form) }}
 
-   <div class="card shadow-sm p-4">
+<div class="container mt-5">
 
-       <h4 class="mb-4">Reservation Details</h4>
+    {{ form_start(form) }}
 
-       {# CAR SELECT #}
-       <div class="mb-3">
-           {{ form_label(form.car, 'Choose a Car') }}
-           {{ form_widget(form.car, {'attr': {'class': 'form-select'}}) }}
-           {{ form_errors(form.car) }}
-       </div>
+    <div class="card shadow-sm p-4">
 
-       {# START DATE #}
-       <div class="mb-3">
-           {{ form_label(form.startDate, 'Start Date') }}
-           {{ form_widget(form.startDate, {'attr': {'class': 'form-control'}}) }}
-           {{ form_errors(form.startDate) }}
-       </div>
+        <h3 class="mb-4">Reservation Details</h3>
 
-       {# END DATE #}
-       <div class="mb-3">
-           {{ form_label(form.endDate, 'End Date') }}
-           {{ form_widget(form.endDate, {'attr': {'class': 'form-control'}}) }}
-           {{ form_errors(form.endDate) }}
-       </div>
+        {# CAR SELECT #}
+        <div class="mb-3">
+            {{ form_label(form.car, 'Choose a Car') }}
+            {{ form_widget(form.car, {'attr': {'class': 'form-select'}}) }}
+            {{ form_errors(form.car) }}
+        </div>
+    <div class="mb-3">
+        {{ form_label(form.fullName, 'Full Name') }}
+        {{ form_widget(form.fullName, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.fullName) }}
+    </div>
 
-       {# OPTIONAL INFO (nice UX improvement) #}
-       <div class="alert alert-info mt-3">
-           <strong>Note:</strong>
-           Make sure the car is available for the selected dates.
-       </div>
+    <div class="mb-3">
+        {{ form_label(form.phoneNumber, 'Phone Number') }}
+        {{ form_widget(form.phoneNumber, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.phoneNumber) }}
+    </div>
 
-       {# SUBMIT BUTTON #}
-       <button class="btn btn-success w-100 mt-2">
-           🚗 {{ button_label|default('Confirm Reservation') }}
-       </button>
+        {# START DATE #}
+        <div class="mb-3">
+            {{ form_label(form.startDate, 'Start Date') }}
+            {{ form_widget(form.startDate, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.startDate) }}
+        </div>
 
-   </div>
+        {# END DATE #}
+        <div class="mb-3">
+            {{ form_label(form.endDate, 'End Date') }}
+            {{ form_widget(form.endDate, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.endDate) }}
+        </div>
 
-   {{ form_end(form) }}
+        {# LICENSE ISSUE DATE #}
+        <div class="mb-3">
+            {{ form_label(form.licenseIssueDate, 'License Issue Date') }}
+            {{ form_widget(form.licenseIssueDate, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.licenseIssueDate) }}
+        </div>
+
+        {# CIN IMAGE #}
+        <div class="mb-3">
+            {{ form_label(form.cinImage, 'CIN Image') }}
+            {{ form_widget(form.cinImage, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.cinImage) }}
+        </div>
+
+        {# LICENSE IMAGE #}
+        <div class="mb-3">
+            {{ form_label(form.licenseImage, 'Driver License Image') }}
+            {{ form_widget(form.licenseImage, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.licenseImage) }}
+        </div>
+
+        <div class="alert alert-info mt-3">
+            <strong>Important:</strong>
+            Driver license must be older than 2 years.
+        </div>
+
+        <button class="btn btn-success w-100 mt-3">
+            🚗 Confirm Reservation
+        </button>
+
+    </div>
+
+    {{ form_end(form) }}
+
+</div>
+
 {% endblock %}

@@ -19,12 +19,19 @@ class Reservation
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
     #[ORM\Column(length: 20)]
     private ?string $status = 'pending';
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Car $car = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $fullName = null;
+
+    #[ORM\Column(length: 30)]
+    private ?string $phoneNumber = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $startDate = null;
@@ -34,6 +41,15 @@ class Reservation
 
     #[ORM\Column]
     private ?float $totalPrice = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $cinImage = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $licenseImage = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $licenseIssueDate = null;
 
     public function getId(): ?int
     {
@@ -48,6 +64,19 @@ class Reservation
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
+
         return $this;
     }
 
@@ -59,6 +88,31 @@ class Reservation
     public function setCar(?Car $car): static
     {
         $this->car = $car;
+
+        return $this;
+    }
+
+    public function getFullName(): ?string
+    {
+        return $this->fullName;
+    }
+
+    public function setFullName(string $fullName): static
+    {
+        $this->fullName = $fullName;
+
+        return $this;
+    }
+
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phoneNumber;
+    }
+
+    public function setPhoneNumber(string $phoneNumber): static
+    {
+        $this->phoneNumber = $phoneNumber;
+
         return $this;
     }
 
@@ -70,6 +124,7 @@ class Reservation
     public function setStartDate(\DateTimeInterface $startDate): static
     {
         $this->startDate = $startDate;
+
         return $this;
     }
 
@@ -81,6 +136,7 @@ class Reservation
     public function setEndDate(\DateTimeInterface $endDate): static
     {
         $this->endDate = $endDate;
+
         return $this;
     }
 
@@ -92,16 +148,43 @@ class Reservation
     public function setTotalPrice(float $totalPrice): static
     {
         $this->totalPrice = $totalPrice;
+
         return $this;
     }
-    public function getStatus(): ?string
+
+    public function getCinImage(): ?string
     {
-        return $this->status;
+        return $this->cinImage;
     }
 
-    public function setStatus(string $status): static
+    public function setCinImage(?string $cinImage): static
     {
-        $this->status = $status;
+        $this->cinImage = $cinImage;
+
+        return $this;
+    }
+
+    public function getLicenseImage(): ?string
+    {
+        return $this->licenseImage;
+    }
+
+    public function setLicenseImage(?string $licenseImage): static
+    {
+        $this->licenseImage = $licenseImage;
+
+        return $this;
+    }
+
+    public function getLicenseIssueDate(): ?\DateTimeInterface
+    {
+        return $this->licenseIssueDate;
+    }
+
+    public function setLicenseIssueDate(?\DateTimeInterface $licenseIssueDate): static
+    {
+        $this->licenseIssueDate = $licenseIssueDate;
+
         return $this;
     }
 }

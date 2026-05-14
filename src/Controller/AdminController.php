@@ -38,9 +38,9 @@ class AdminController extends AbstractController
         ]);
     }
 
-    // =========================
+
     // CARS MANAGEMENT PAGE
-    // =========================
+
     #[Route('/cars', name: 'admin_cars')]
     public function cars(CarRepository $carRepository, Request $request): Response
     {
